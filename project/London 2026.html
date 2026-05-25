@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LONDON 2026 — תוכנית הטיול</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;700;900&family=Assistant:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0a0e;--bg2:#121218;--card:#15151c;--ink:#f4f2ea;
+  --dim:#9b9aa3;--faint:#6a6a73;--line:rgba(255,255,255,.10);
+  --line2:rgba(255,255,255,.18);--violet:#d3fb60;--violet-bright:#e6ff8a;
+  --acid:#ea468d;--nav-h:64px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'Assistant',sans-serif;
+  font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+.ltr{direction:ltr;unicode-bidi:isolate;display:inline-block}
+.mono{font-family:'Space Mono',monospace}
+body::after{content:"";position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+.nav{position:sticky;top:0;z-index:100;background:#000;
+  border-bottom:1px solid var(--line);height:var(--nav-h);display:flex;align-items:center;}
+.nav-inner{display:flex;gap:8px;align-items:center;overflow-x:auto;
+  scrollbar-width:none;padding:0 16px;width:100%;}
+.nav-inner::-webkit-scrollbar{display:none}
+.nav-brand{font-family:'Rubik';font-weight:900;font-size:14px;letter-spacing:1px;
+  color:var(--ink);white-space:nowrap;padding-left:6px;flex-shrink:0;}
+.nav-brand b{color:var(--violet-bright)}
+.chip{flex-shrink:0;white-space:nowrap;text-decoration:none;
+  font-family:'Space Mono',monospace;font-size:12.5px;font-weight:700;
+  color:var(--dim);border:1px solid var(--line);border-radius:999px;
+  padding:7px 13px;transition:.22s ease;display:flex;align-items:center;gap:7px;}
+.chip .wd{font-family:'Assistant';font-weight:600;font-size:12px}
+.chip:hover{color:var(--ink);border-color:var(--line2)}
+.chip.active{color:#0a0a0e;background:var(--violet);border-color:var(--violet)}
+.chip.show.active{background:var(--acid);border-color:var(--acid)}
+.chip.show .dot{width:6px;height:6px;border-radius:50%;background:var(--acid)}
+.hero{position:relative;padding:32px 22px 56px;max-width:1080px;margin:0 auto;border-bottom:1px solid var(--line);}
+.hero-art{position:relative;margin:0 0 36px;border-radius:14px;overflow:hidden;
+  border:1px solid var(--line2);box-shadow:0 30px 60px -25px rgba(211,251,96,.45);
+  aspect-ratio:16/9;background:#ec4899;}
+.hero-art img{width:100%;height:100%;object-fit:cover;display:block;
+  filter:saturate(1.05) contrast(1.02);}
+.hero-art::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg,rgba(10,10,14,.35) 0%,transparent 28%,transparent 60%,rgba(10,10,14,.55) 100%);}
+.hero-art .stamp{position:absolute;top:14px;left:14px;z-index:3;
+  font-family:'Space Mono',monospace;font-size:11px;font-weight:700;
+  letter-spacing:2px;text-transform:uppercase;color:#0a0a0e;
+  background:var(--acid);padding:6px 10px;border-radius:4px;
+  transform:rotate(-2deg);}
+.hero-art .stamp2{position:absolute;top:14px;right:14px;z-index:3;
+  font-family:'Space Mono',monospace;font-size:11px;font-weight:700;
+  letter-spacing:2px;text-transform:uppercase;color:#fff;
+  background:#0a0a0e;padding:6px 10px;border:1px solid #fff;
+  transform:rotate(1deg);}
+.hero-art h1{position:absolute;inset:0;z-index:2;margin:0;pointer-events:none;
+  display:flex;flex-direction:column;justify-content:space-between;
+  padding:42px 26px 30px;direction:ltr;}
+.hero-art h1 .ln{font-family:'Rubik';font-weight:900;line-height:.82;
+  font-size:clamp(56px,13vw,150px);letter-spacing:-3px;color:#fff;
+  text-shadow:0 4px 0 #0a0a0e,0 0 28px rgba(0,0,0,.45);}
+.hero-art h1 .yr{align-self:flex-end;color:transparent;
+  -webkit-text-stroke:2.5px #fff;text-shadow:none;
+  filter:drop-shadow(0 3px 0 #0a0a0e);}
+.hero-kick{font-family:'Space Mono';font-size:25px;letter-spacing:3px;color:var(--violet-bright);text-transform:uppercase;margin-bottom:18px;}
+.hero h1{font-family:'Rubik';font-weight:900;line-height:.86;font-size:clamp(64px,17vw,168px);letter-spacing:-2px;}
+.hero h1 .yr{color:transparent;-webkit-text-stroke:2px var(--ink);display:block;}
+.hero-meta{display:flex;flex-wrap:wrap;gap:10px 28px;margin-top:30px;font-size:15px;color:var(--dim);}
+.hero-meta .mono{color:var(--ink)}
+.shows{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px}
+.show-badge{border:1px solid var(--line2);border-radius:14px;padding:14px 18px;
+  min-width:210px;position:relative;overflow:hidden;background:var(--bg2);}
+.show-badge::before{content:"";position:absolute;inset-inline-start:0;top:0;bottom:0;width:4px;background:var(--acid)}
+.show-badge .nm{font-family:'Rubik';font-weight:900;font-size:23px;letter-spacing:.5px}
+.show-badge .sub{font-family:'Space Mono';font-size:12px;color:var(--dim);margin-top:4px}
+.ticker{border-block:1px solid var(--line);overflow:hidden;white-space:nowrap;background:var(--violet);color:#0a0a0e;}
+.ticker .track{display:inline-flex;gap:0;padding:9px 0;animation:scroll 26s linear infinite;}
+.ticker span{font-family:'Rubik';font-weight:900;font-size:14px;letter-spacing:1px;padding:0 26px;text-transform:uppercase}
+.ticker span::after{content:"✦";margin-inline-start:26px;opacity:.55}
+@keyframes scroll{to{transform:translateX(50%)}}
+main{max-width:1080px;margin:0 auto;padding:8px 22px 40px}
+.day{scroll-margin-top:calc(var(--nav-h) + 14px);padding:40px 0;
+  opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s ease;}
+.day.in{opacity:1;transform:none}
+.day-img-wrap{width:100%;height:195px;border-radius:12px;overflow:hidden;
+  background:linear-gradient(135deg,var(--bg2) 0%,#1a1a24 100%);
+  margin-bottom:22px;border:1px solid var(--line);position:relative;}
+.day-img{width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .7s ease;}
+.day-img.loaded{opacity:1}
+.day-img-wrap::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(to bottom,transparent 40%,rgba(10,10,14,.65));pointer-events:none;}
+.day-grid{display:grid;grid-template-columns:128px 1fr;gap:26px;}
+.perf{height:1px;border:0;background:repeating-linear-gradient(to left,var(--line) 0 7px,transparent 7px 15px);}
+.day-num .n{font-family:'Rubik';font-weight:900;font-size:62px;line-height:.9;letter-spacing:-1px;}
+.day-num .mo{font-family:'Space Mono';font-size:12px;color:var(--faint);margin-top:2px}
+.day-num .wd{font-size:14px;color:var(--dim);font-weight:600;margin-top:8px}
+.day-body h2{font-family:'Rubik';font-weight:700;font-size:27px;line-height:1.15;margin-bottom:8px}
+.tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:16px}
+.tag{font-family:'Space Mono';font-size:11px;font-weight:700;letter-spacing:.5px;
+  padding:4px 9px;border-radius:6px;border:1px solid var(--line2);color:var(--dim);}
+.tag.who{color:var(--violet-bright);border-color:rgba(211,251,96,.55)}
+.tag.stay{color:var(--ink)}
+.tag.show{background:var(--acid);color:#0a0a0e;border-color:var(--acid)}
+.tag.urgent{background:#e03010;color:#fff;border-color:#e03010;animation:pulse 1.8s ease infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.7}}
+.day-body ul{list-style:none;display:flex;flex-direction:column;gap:9px}
+.day-body li{position:relative;padding-inline-start:20px;color:#dad8d2}
+.day-body li::before{content:"";position:absolute;inset-inline-start:0;top:11px;
+  width:7px;height:7px;background:var(--violet);transform:rotate(45deg);}
+.day.is-show .day-num .n{color:var(--acid)}
+.day.is-show li::before{background:var(--acid)}
+.map-link{display:inline-flex;align-items:center;gap:3px;font-size:12px;
+  color:var(--violet-bright);text-decoration:none;
+  border:1px solid rgba(211,251,96,.45);border-radius:999px;
+  padding:2px 9px;margin-inline-start:7px;vertical-align:middle;transition:.2s;}
+.map-link:hover{background:rgba(211,251,96,.18);border-color:var(--violet)}
+.logi{margin-top:18px;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:16px 18px;}
+.logi h3{font-family:'Space Mono';font-size:12px;letter-spacing:1px;color:var(--acid);text-transform:uppercase;margin-bottom:12px}
+.logi.info h3{color:var(--violet-bright)}
+.logi .row{display:flex;gap:12px;padding:7px 0;border-top:1px solid var(--line);font-size:14.5px}
+.logi .row:first-of-type{border-top:0;padding-top:0}
+.logi .row .k{flex-shrink:0;width:78px;color:var(--faint);font-family:'Space Mono';font-size:11.5px;padding-top:2px}
+.logi .row .v{color:#e4e2db}
+.logi .row a{color:var(--violet-bright)}
+.note{margin-top:14px;font-size:13.5px;color:var(--dim);border-inline-start:2px solid var(--violet);padding-inline-start:12px;}
+.note b{color:var(--violet-bright);font-weight:600}
+.alert{margin-top:14px;font-size:13.5px;border-inline-start:3px solid #e03010;padding-inline-start:12px;color:#ff7755;}
+.alert b{color:#ff5533;font-weight:700}
+.alert a{color:#ff7755}
+footer{border-top:1px solid var(--line);background:var(--bg2);padding:46px 22px 60px}
+.foot-inner{max-width:1080px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:28px}
+.foot-col h4{font-family:'Space Mono';font-size:12px;letter-spacing:1px;color:var(--violet-bright);text-transform:uppercase;margin-bottom:12px}
+.foot-col p{font-size:14px;color:var(--dim);margin-bottom:6px}
+.foot-col p b{color:var(--ink);font-weight:600}
+.foot-col a{color:var(--violet-bright)}
+.foot-note{max-width:1080px;margin:34px auto 0;font-size:12px;color:var(--faint);font-family:'Space Mono';border-top:1px solid var(--line);padding-top:18px}
+@media(max-width:640px){
+  .day-grid{grid-template-columns:1fr;gap:14px}
+  .day-num{display:flex;align-items:baseline;gap:12px}
+  .day-num .n{font-size:46px}
+  .day-num .wd{margin-top:0}
+  .hero{padding:32px 18px 44px}
+  .day-img-wrap{height:150px}
+  .hero-art{margin-bottom:26px}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .day{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner" id="nav">
+    <span class="nav-brand">LONDON<b>·26</b></span>
+    <a class="chip" href="#d01"><span class="wd">שבת</span> 27</a>
+    <a class="chip show" href="#d02"><span class="dot"></span><span class="wd">ראשון</span> 28</a>
+    <a class="chip" href="#d03"><span class="wd">שני</span> 29</a>
+    <a class="chip" href="#d04"><span class="wd">שלישי</span> 30</a>
+    <a class="chip" href="#d05"><span class="wd">רביעי</span> 01</a>
+    <a class="chip" href="#d06"><span class="wd">חמישי</span> 02</a>
+    <a class="chip" href="#d07"><span class="wd">שישי</span> 03</a>
+    <a class="chip" href="#d08"><span class="wd">שבת</span> 04</a>
+    <a class="chip show" href="#d09"><span class="dot"></span><span class="wd">ראשון</span> 05</a>
+    <a class="chip" href="#d10"><span class="wd">שני</span> 06</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-art">
+    <span class="stamp" style="background-color: rgb(212, 250, 97)">UK · 27.06 → 06.07</span>
+    <img src="assets/hero-punk-london.jpeg" alt="Punk London — Big Ben, telephone box, mohawk">
+    <h1><span class="ln">LONDON</span><span class="ln yr">2026</span></h1>
+    <span class="stamp2">3 BOYS · 2 SHOWS · 10 DAYS</span>
+  </div>
+  <div class="hero-kick">תוכנית טיול · 10 ימים · UK</div>
+  <div class="hero-meta">
+    <span>תאריכים <span class="mono ltr">27.06 → 06.07</span></span>
+    <span>מטיילים <span class="mono">3</span> · זמי · אסי · ברששת</span>
+    <span>בסיס <span class="ltr">Piccadilly</span> → <span class="ltr">Oxford St</span></span>
+  </div>
+  <div class="shows">
+    <div class="show-badge">
+      <div class="nm">THE OFFSPRING</div>
+      <div class="sub ltr">28.06 · Crystal Palace Park</div>
+    </div>
+    <div class="show-badge">
+      <div class="nm">METALLICA</div>
+      <div class="sub ltr">05.07 · London Stadium</div>
+    </div>
+  </div>
+</header>
+
+<div class="ticker"><div class="track">
+  <span>וינטג'</span><span>סטייק</span><span>רוק</span><span>קריוקי</span><span>פאנק</span><span>מטאל</span><span>Sky Garden</span>
+  <span>וינטג'</span><span>סטייק</span><span>רוק</span><span>קריוקי</span><span>פאנק</span><span>מטאל</span><span>Sky Garden</span>
+</div></div>
+
+<main>
+
+<!-- DAY 1 -->
+<section class="day" id="d01">
+  <div class="day-img-wrap"><img class="day-img" src="assets/jun-27.jpeg" alt="Piccadilly Circus" loading="lazy" style="opacity: 1"></div>
+  <div class="day-grid">
+    <div class="day-num"><div class="n">27</div><div class="mo">יוני</div><div class="wd">שבת</div></div>
+    <div class="day-body">
+      <h2>נחיתה והתמקמות</h2>
+      <div class="tags"><span class="tag who">אסי + ברששת</span><span class="tag stay">Zedwell Piccadilly</span></div>
+      <ul>
+        <li>צ'ק-אין ב-<span class="ltr">Zedwell Piccadilly</span>, ממש על הכיכר. <a href="https://www.google.com/maps/search/?api=1&query=Zedwell+Hotel+Piccadilly+London" target="_blank" class="map-link">📍 מפה</a></li>
+        <li>סיבוב ראשון בסוהו ופיקדילי, להתאקלם. <a href="https://www.google.com/maps/search/?api=1&query=Piccadilly+Circus+London" target="_blank" class="map-link">📍 מפה</a></li>
+        <li>ערב קליל ב-<span class="ltr">Hard Rock Cafe</span>, דקה מהמלון. <a href="https://www.google.com/maps/search/?api=1&query=Hard+Rock+Cafe+Piccadilly+Circus+London" target="_blank" class="map-link">📍 מפה</a></li>
+      </ul>
+      <div class="note">להוריד <b>Citymapper</b> + תשלום קונטקטלס בטלפון. זה כל מה שצריך.</div>
+    </div>
+  </div>
+</section>
+<hr class="perf">
+
+<!-- DAY 2 SHOW -->
+<section class="day is-show" id="d02">
+  <div class="day-img-wrap"><img class="day-img" src="assets/jun-28.jpeg" alt="Crystal Palace Park" loading="lazy" style="opacity: 1"></div>
+  <div class="day-grid">
+    <div class="day-num"><div class="n">28</div><div class="mo">יוני</div><div class="wd">ראשון</div></div>
+    <div class="day-body">
+      <h2>The Offspring</h2>
+      <div class="tags"><span class="tag show">SHOW NIGHT</span><span class="tag who">אסי + ברששת</span></div>
+      <ul>
+        <li>פסטיבל יום שלם עם <span class="ltr">Dropkick Murphys, Pennywise, PUP &amp; Destroy Boys</span>.</li>
+        <li>פתיחה <span class="mono">13:00</span>, ה-Offspring על הבמה ~<span class="mono">19:00</span>.</li>
+      </ul>
+      <div class="logi">
+        <h3>לוגיסטיקה</h3>
+        <div class="row"><span class="k">מקום</span><span class="v"><span class="ltr">Crystal Palace Park, SE19 2GA</span> <a href="https://www.google.com/maps/place/?q=place_id:ChIJ94vQ-0IBdkgRxsGErkV2hZo" target="_blank" class="map-link">📍 מפה</a></span></div>
+        <div class="row"><span class="k">יציאה</span><span class="v">~13:00 לכל הליינאפ · ~14:30 לראשית בלבד</span></div>
+        <div class="row"><span class="k">הגעה</span><span class="v">מטרו <span class="ltr">Piccadilly Circus → Victoria</span>, רכבת <span class="ltr">Southern → Crystal Palace</span> (~55 דק')</span></div>
+        <div class="row"><span class="k">חזרה</span><span class="v">אותו מסלול · תור של ~20–30 דק' אחרי המופע</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+<hr class="perf">
+
+<!-- DAY 3 -->
+<section class="day" id="d03">
+  <div class="day-img-wrap"><img class="day-img" src="assets/jun-29.jpeg" alt="Camden Market" loading="lazy" style="opacity: 1"></div>
+  <div class="day-grid">
+    <div class="day-num"><div class="n">29</div><div class="mo">יוני</div><div class="wd">שני</div></div>
+    <div class="day-body">
+      <h2>וינטג': קמדן</h2>
+      <div class="tags"><span class="tag who">אסי + ברששת</span></div>
+      <ul>
+        <li><span class="ltr">Camden Market</span> — יד שנייה, תקליטים, אווירת רוק. <a href="https://www.google.com/maps/place/?q=place_id:ChIJKZQaXxwbdkgRWLo89tC-_V8" target="_blank" class="map-link">📍 מפה</a></li>
+        <li>קו <span class="ltr">Northern → Camden Town</span>. בול בשביל הטריפ הזה.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+<hr class="perf">
+
+<!-- DAY 4 -->
+<section class="day" id="d04">
+  <div class="day-img-wrap"><img class="day-img" data-wiki="Brick_Lane" alt="Brick Lane" loading="lazy"></div>
+  <div class="day-grid">
+    <div class="day-num"><div class="n">30</div><div class="mo">יוני</div><div class="wd">שלישי</div></div>
+    <div class="day-body">
+      <h2>וינטג': בריק ליין</h2>
+      <div class="tags"><span class="tag who">אסי + ברששת</span></div>
+      <ul>
+        <li><span class="ltr">Brick Lane Vintage Market</span> ושורדיטץ'. <span class="ltr">Rokit, Beyond Retro</span> ועוד. <a href="https://www.google.com/maps/place/?q=place_id:ChIJUeGR5skcdkgRhoeEXHPbGpk" target="_blank" class="map-link">📍 מפה</a></li>
+        <li>גן עדן של יד שנייה עם אווירת מזרח לונדון.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+<hr class="perf">
+
+<!-- DAY 5 -->
+<section class="day" id="d05">
+  <div class="day-img-wrap"><img class="day-img" data-wiki="Carnaby_Street" alt="Carnaby Street" loading="lazy"></div>
+  <div class="day-grid">
+    <div class="day-num"><div class="n">01</div><div class="mo">יולי</div><div class="wd">רביעי</div></div>
+    <div class="day-body">
+      <h2>סוהו + סטייק</h2>
+      <div class="tags"><span class="tag who">אסי + ברששת</span></div>
+      <ul>
+        <li>קרנבי סטריט וחנויות תקליטים בסוהו. <a href="https://www.google.com/maps/search/?api=1&query=Carnaby+Street+London" target="_blank" class="map-link">📍 מפה</a></li>
+        <li>ערב: <span class="ltr">Flat Iron</span> ב-<span class="ltr">17 Beak St</span>. בלי הזמנות — להגיע לפני 18:00. <a href="https://www.google.com/maps/place/?q=place_id:ChIJL1pkqdUEdkgRS3MDjg6kzVc" target="_blank" class="map-link">📍 מפה</a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+<hr class="perf">
+
+<!-- DAY 6 -->
+<section class="day" id="d06">
+  <div class="day-img-wrap"><img class="day-img" data-wiki="St_Pancras_railway_station" alt="St Pancras" loading="lazy"></div>
+  <div class="day-grid">
+    <div class="day-num"><div class="n">02</div><div class="mo">יולי</div><div class="wd">חמישי</div></div>
+    <div class="day-body">
+      <h2>זמי נוחת · מעבר מלון</h2>
+      <div class="tags"><span class="tag who">כולם</span><span class="tag stay">STG Hotel Oxford St</span></div>
+      <ul>
+        <li>זמי נוחת ב-<span class="ltr">Luton</span> (<span class="ltr">LY311</span>, <span class="mono">08:15</span>). <span class="ltr">Luton Airport Express → St Pancras</span> ואז למלון, ~שעה מהנחיתה. <a href="https://www.google.com/maps/search/?api=1&query=London+Luton+Airport" target="_blank" class="map-link">📍 Luton</a></li>
+        <li>הבנים צ'ק-אאוט מ-<span class="ltr">Zedwell</span>, כולם עוברים ל-<span class="ltr">STG Hotel Oxford Street</span>. <a href="https://www.google.com/maps/search/?api=1&query=STG+Hotel+Oxford+Street+London" target="_blank" class="map-link">📍 STG</a></li>
+        <li>ערב רגוע. <span class="ltr">Outernet London</span> ליד המלון — מוזיקה דיגיטלית, כניסה חינם. <a href="https://www.google.com/maps/search/?api=1&query=Outernet+London+WC2" target="_blank" class="map-link">📍 מפה</a></li>
+      </ul>
+      <div class="note">הטיסה ממריאה <span class="mono">04:50</span> מבן גוריון = להיות בשדה ~<span class="mono">02:00</span>. <b>יום ראשון רגוע במכוון.</b></div>
+    </div>
+  </div>
+</section>
+<hr class="perf">
+
+<!-- DAY 7 -->
+<section class="day" id="d07">
+  <div class="day-img-wrap"><img class="day-img" src="assets/jul-03.jpeg" alt="British Museum" loading="lazy" style="opacity: 1"></div>
+  <div class="day-grid">
+    <div class="day-num"><div class="n">03</div><div class="mo">יולי</div><div class="wd">שישי</div></div>
+    <div class="day-body">
+      <h2>מוזיאון · קומיקס · קריוקי</h2>
+      <div class="tags"><span class="tag who">כולם</span><span class="tag">מסלול הליכה</span></div>
+      <ul>
+        <li><b style="color:#fff">בוקר</b> — המוזיאון הבריטי, כניסה חינם. פסלי הפרתנון מהאקרופוליס באולם 18. לפחות שעתיים. שישי פתוח עד <span class="mono">20:30</span>. <a href="https://www.google.com/maps/place/?q=place_id:ChIJB9OTMDIbdkgRp0JWbQGZsS8" target="_blank" class="map-link">📍 מפה</a></li>
+        <li><b style="color:#fff">צהריים</b> — הליכה ~10 דק' ל-<span class="ltr">Forbidden Planet</span>, <span class="ltr">179 Shaftesbury Ave</span>. שתי קומות של קומיקס, מאנגה ופיגרים. <a href="https://www.google.com/maps/place/?q=place_id:ChIJs3AXzDIbdkgRWE0xp5kzxDg" target="_blank" class="map-link">📍 מפה</a></li>
+        <li><b style="color:#fff">ערב</b> — קריוקי פרטי ב-<span class="ltr">Lucky Voice</span>, <span class="ltr">52 Poland St</span>. <a href="https://www.google.com/maps/place/?q=place_id:ChIJO37rxdQEdkgR-6IuXr0d0Uo" target="_blank" class="map-link">📍 מפה</a></li>
+      </ul>
+      <div class="note"><b>לאמת מראש:</b> מדיניות גיל ב-Lucky Voice לבן ה-16. בדרך כלל מכניסים בחדר פרטי עם מבוגר.</div>
+    </div>
+  </div>
+</section>
+<hr class="perf">
+
+<!-- DAY 8 -->
+<section class="day" id="d08">
+  <div class="day-img-wrap"><img class="day-img" src="assets/sky-garden.jpeg" alt="Sky Garden London" loading="lazy" style="opacity: 1"></div>
+  <div class="day-grid">
+    <div class="day-num"><div class="n">04</div><div class="mo">יולי</div><div class="wd">שבת</div></div>
+    <div class="day-body">
+      <h2>וינטג' עם אבא + Sky Garden</h2>
+      <div class="tags"><span class="tag who">כולם</span><span class="tag urgent">⚠ לא הוזמן</span></div>
+      <ul>
+        <li><b style="color:#fff">בוקר</b> — <span class="ltr">Portobello Road Market</span>, נוטינג היל. הכי טוב מ-<span class="mono">09:00</span>. קו <span class="ltr">Central → Notting Hill Gate</span>. <a href="https://www.google.com/maps/place/?q=place_id:ChIJG1YB2m4RdkgRsetv9D40NGY" target="_blank" class="map-link">📍 מפה</a></li>
+        <li><b style="color:#fff">אחה"צ / שקיעה</b> — <span class="ltr">Sky Garden</span>, קומה 35 על <span class="ltr">20 Fenchurch St</span>. נוף 360° על לונדון ועל הטמזה. <b>כניסה חינם!</b> <a href="https://www.google.com/maps/place/?q=place_id:ChIJgaI8bFIDdkgRhJJqLMxsFdU" target="_blank" class="map-link">📍 מפה</a></li>
+      </ul>
+      <div class="logi info">
+        <h3>Sky Garden — פרטים</h3>
+        <div class="row"><span class="k">כתובת</span><span class="v"><span class="ltr">20 Fenchurch St, EC3M 8AF</span></span></div>
+        <div class="row"><span class="k">הגעה</span><span class="v">קו <span class="ltr">Central / Northern → Bank</span>, הליכה ~7 דק'</span></div>
+        <div class="row"><span class="k">שעות</span><span class="v">ש': <span class="mono">09:00</span>, ע"ש: <span class="mono">09:00</span> עד <span class="mono">01:00</span></span></div>
+        <div class="row"><span class="k">הזמנה</span><span class="v"><a href="https://skygarden.london/book" target="_blank">skygarden.london/book</a> · חינם, חובה מראש</span></div>
+      </div>
+      <div class="alert"><b>להזמין עכשיו!</b> ב-skygarden.london — הביקורות אומרות לפחות חודש מראש. ה-4 ביולי הוא עוד ~40 יום וכרטיסים אוזלים מהר.</div>
+    </div>
+  </div>
+</section>
+<hr class="perf">
+
+<!-- DAY 9 SHOW -->
+<section class="day is-show" id="d09">
+  <div class="day-img-wrap"><img class="day-img" src="assets/metallica-day.jpeg" alt="Metallica — M72 World Tour" loading="lazy" style="object-fit: cover; padding: 0px; margin: 0px; border-width: 0px; border-style: solid; opacity: 1"></div>
+  <div class="day-grid">
+    <div class="day-num"><div class="n">05</div><div class="mo">יולי</div><div class="wd">ראשון</div></div>
+    <div class="day-body">
+      <h2>Metallica</h2>
+      <div class="tags"><span class="tag show">SHOW NIGHT</span><span class="tag who">כולם</span><span class="tag" style="color:var(--acid);border-color:rgba(234,70,141,.35)">+ עופר</span></div>
+      <ul>
+        <li>מצטרף לערב: בן הדוד <b style="color:var(--acid)">עופר</b>. ארבעתכם ביחד לסיומת הטור.</li>
+        <li>ההופעה האחרונה של טור <span class="ltr">M72</span> בעולם. <span class="ltr">Pantera &amp; Avatar</span> בחימום.</li>
+        <li>ארוחה לפני ב-<span class="ltr">The Cow</span> ב-<span class="ltr">Westfield Stratford</span>. <a href="https://www.google.com/maps/search/?api=1&query=The+Cow+pub+Westfield+Stratford+London" target="_blank" class="map-link">📍 מפה</a> להזמין שולחן ~14:30–15:30.</li>
+      </ul>
+      <div class="logi">
+        <h3>לוגיסטיקה</h3>
+        <div class="row"><span class="k">מקום</span><span class="v"><span class="ltr">London Stadium, E20 2ST</span> <a href="https://www.google.com/maps/place/?q=place_id:ChIJWbXodWkddkgRlM62BUak_Oc" target="_blank" class="map-link">📍 מפה</a></span></div>
+        <div class="row"><span class="k">דלתות</span><span class="v"><span class="mono">17:00</span></span></div>
+        <div class="row"><span class="k">יציאה</span><span class="v">מהמלון ~<span class="mono">16:00</span>. קו <span class="ltr">Elizabeth: Tottenham Court Road → Stratford</span> (~13 דק')</span></div>
+        <div class="row"><span class="k">חזרה</span><span class="v">80 אלף איש — להמתין ב-<span class="ltr">Westfield</span> או ללכת ל-<span class="ltr">Hackney Wick</span>. בלי רכב.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+<hr class="perf">
+
+<!-- DAY 10 -->
+<section class="day" id="d10">
+  <div class="day-img-wrap"><img class="day-img" data-wiki="Heathrow_Airport" alt="Heathrow Airport" loading="lazy"></div>
+  <div class="day-grid">
+    <div class="day-num"><div class="n">06</div><div class="mo">יולי</div><div class="wd">שני</div></div>
+    <div class="day-body">
+      <h2>יום אחרון · טיסה הביתה</h2>
+      <div class="tags"><span class="tag who">כולם</span></div>
+      <ul>
+        <li>יום שלם בלונדון — הטיסה רק בלילה. צ'ק-אאוט, מזוודות בלובי.</li>
+        <li>ערב: נסיעה ל-<span class="ltr">Heathrow Terminal 4</span>. קו <span class="ltr">Elizabeth: Tottenham Court Road → T4</span> (~50 דק'). <a href="https://www.google.com/maps/search/?api=1&query=Heathrow+Terminal+4+London" target="_blank" class="map-link">📍 מפה</a></li>
+      </ul>
+      <div class="logi info">
+        <h3>טיסת חזרה</h3>
+        <div class="row"><span class="k">טיסה</span><span class="v"><span class="ltr">EL AL LY318 · Heathrow T4 → TLV</span></span></div>
+        <div class="row"><span class="k">המראה</span><span class="v"><span class="mono">22:10</span> ב-06.07 · נחיתה בארץ <span class="mono">05:05</span> ב-07.07</span></div>
+        <div class="row"><span class="k">להגיע</span><span class="v">אל על = 3 שעות לפני → בשדה ~<span class="mono">19:00</span>, לצאת ~<span class="mono">17:45</span></span></div>
+      </div>
+      <div class="note"><b>שימו לב:</b> נוחתים ב-<span class="ltr">Luton</span> ביום ההגעה — ממריאים מ-<span class="ltr">Heathrow T4</span> בחזרה. שני שדות שונים.</div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="foot-inner">
+    <div class="foot-col">
+      <h4>מלונות</h4>
+      <p><b>Zedwell Piccadilly</b><br><span class="mono ltr">27.06 – 02.07</span></p>
+      <p><b>STG Hotel Oxford St</b><br><span class="mono ltr">02.07 – 06.07</span></p>
+    </div>
+    <div class="foot-col">
+      <h4>מופעים</h4>
+      <p><b>The Offspring</b> · <span class="mono">28.06</span><br><span class="ltr">Crystal Palace Park</span></p>
+      <p><b>Metallica</b> · <span class="mono">05.07</span><br><span class="ltr">London Stadium · Pantera &amp; Avatar</span></p>
+    </div>
+    <div class="foot-col">
+      <h4>טיסות</h4>
+      <p><b>אסי (Asaf)</b> · Arkia<br><span class="mono ltr">27.06 הלוך</span></p>
+      <p><b>זמי</b> · EL AL LY311<br><span class="mono ltr">02.07 · Luton 08:15</span></p>
+      <p><b>חזרה</b> · EL AL LY318<br><span class="mono ltr">06.07 · Heathrow T4 22:10</span></p>
+    </div>
+    <div class="foot-col">
+      <h4>לאמת מראש</h4>
+      <p><b>⚠ Sky Garden</b> — <a href="https://skygarden.london/book" target="_blank">להזמין עכשיו!</a></p>
+      <p>The Cow — שולחן ל-5.7</p>
+      <p>Lucky Voice — גיל אסי</p>
+      <p>Flat Iron — בלי הזמנות</p>
+    </div>
+  </div>
+  <div class="foot-note">LONDON 2026 · נבנה בשביל זמי והבנים · עדכן אותי וזה משתנה.</div>
+</footer>
+
+<script>
+const chips=[...document.querySelectorAll('.chip')];
+const days=[...document.querySelectorAll('.day')];
+const spy=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('in');
+      const id=e.target.id;
+      chips.forEach(c=>{
+        const on=c.getAttribute('href')==='#'+id;
+        c.classList.toggle('active',on);
+        if(on)c.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'});
+      });
+    }
+  });
+},{rootMargin:'-30% 0px -55% 0px',threshold:0});
+days.forEach(d=>spy.observe(d));
+const reveal=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');reveal.unobserve(e.target)}});
+},{rootMargin:'0px 0px -12% 0px',threshold:.1});
+days.forEach(d=>reveal.observe(d));
+document.querySelectorAll('.day-img[data-wiki]').forEach(async img=>{
+  try{
+    const t=encodeURIComponent(img.dataset.wiki);
+    const url=`https://en.wikipedia.org/w/api.php?action=query&titles=${t}&prop=pageimages&format=json&pithumbsize=900&origin=*`;
+    const data=await(await fetch(url)).json();
+    const page=Object.values(data.query.pages)[0];
+    if(page?.thumbnail?.source){img.src=page.thumbnail.source;img.onload=()=>img.classList.add('loaded');}
+  }catch(e){}
+});
+</script>
+</body>
+</html>
