@@ -407,6 +407,30 @@ footer {
 .foot-col p { font-size: 14px; color: var(--dim); margin-bottom: 6px; }
 .foot-col p b { color: var(--ink); font-weight: 600; }
 .foot-col a { color: var(--lime-bright); }
+.foot-map {
+  max-width: 1080px;
+  margin: 34px auto 0;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 22px 24px;
+  border: 1px solid var(--line2);
+  border-radius: 14px;
+  background: linear-gradient(120deg, rgba(211,251,96,.08), rgba(234,70,141,.06));
+  text-decoration: none;
+  color: var(--ink);
+  transition: .25s;
+  position: relative;
+  overflow: hidden;
+}
+.foot-map:hover { border-color: var(--lime); background: linear-gradient(120deg, rgba(211,251,96,.16), rgba(234,70,141,.12)); transform: translateY(-2px); }
+.foot-map .pin { flex: 0 0 56px; height: 56px; border-radius: 14px; display: grid; place-items: center; background: var(--lime); color: #0a0a0e; font-size: 28px; box-shadow: 0 6px 20px -6px rgba(211,251,96,.6); }
+.foot-map .txt { flex: 1; min-width: 0; }
+.foot-map .lbl { font-family: 'Space Mono'; font-size: 11px; letter-spacing: 2px; color: var(--pink); text-transform: uppercase; margin-bottom: 4px; }
+.foot-map .ttl { font-family: 'Rubik'; font-weight: 700; font-size: 18px; color: var(--ink); line-height: 1.25; }
+.foot-map .sub { font-size: 13px; color: var(--dim); margin-top: 3px; }
+.foot-map .arr { font-family: 'Space Mono'; font-size: 22px; color: var(--lime-bright); transition: transform .25s; }
+.foot-map:hover .arr { transform: translateX(-6px); }
 .foot-note {
   max-width: 1080px;
   margin: 34px auto 0;
@@ -590,7 +614,7 @@ footer {
 <!-- DAY 4 · 30.06 שלישי · וינטג': בריק ליין -->
 <section class="day" id="d04">
   <div class="day-img-wrap">
-    <img class="day-img" data-wiki="Brick_Lane" alt="Brick Lane" loading="lazy">
+    <img class="day-img loaded" src="assets/jun-30.jpeg" alt="Brick Lane" loading="lazy">
   </div>
   <div class="day-grid">
     <div class="day-num">
@@ -615,7 +639,7 @@ footer {
 <!-- DAY 5 · 01.07 רביעי · סוהו + סטייק -->
 <section class="day" id="d05">
   <div class="day-img-wrap">
-    <img class="day-img" data-wiki="Carnaby_Street" alt="Carnaby Street" loading="lazy">
+    <img class="day-img loaded" src="assets/jul-01.jpeg" alt="Carnaby Street" loading="lazy">
   </div>
   <div class="day-grid">
     <div class="day-num">
@@ -640,7 +664,7 @@ footer {
 <!-- DAY 6 · 02.07 חמישי · זמי נוחת + מעבר מלון -->
 <section class="day" id="d06">
   <div class="day-img-wrap">
-    <img class="day-img" data-wiki="St_Pancras_railway_station" alt="St Pancras" loading="lazy">
+    <img class="day-img loaded" src="assets/jul-02.jpeg" alt="St Pancras" loading="lazy">
   </div>
   <div class="day-grid">
     <div class="day-num">
@@ -789,7 +813,7 @@ footer {
 <!-- DAY 10 · 06.07 שני · יום אחרון + טיסה -->
 <section class="day" id="d10">
   <div class="day-img-wrap">
-    <img class="day-img" data-wiki="Heathrow_Airport" alt="Heathrow Airport" loading="lazy">
+    <img class="day-img loaded" src="assets/jul-06.jpeg" alt="Heathrow Airport" loading="lazy">
   </div>
   <div class="day-grid">
     <div class="day-num">
@@ -855,6 +879,15 @@ footer {
       <p>Flat Iron — בלי הזמנות</p>
     </div>
   </div>
+  <a class="foot-map" href="https://maps.app.goo.gl/rZfFYyChyiSkFCMH8" target="_blank" rel="noopener">
+    <div class="pin">📍</div>
+    <div class="txt">
+      <div class="lbl">Shared Google Map</div>
+      <div class="ttl">כל המקומות של הטיול במפה אחת</div>
+      <div class="sub">מלונות, מופעים, מסעדות ונקודות עיקריות · פתח ב-Google Maps</div>
+    </div>
+    <div class="arr">←</div>
+  </a>
   <div class="foot-note">LONDON 2026 · נבנה בשביל זמי והבנים · עדכן אותי וזה משתנה.</div>
 </footer>
 
