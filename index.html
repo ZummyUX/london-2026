@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;700;900&family=Assistant:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <style>
 :root {
   --bg: #0a0a0e;
@@ -616,6 +617,7 @@ footer {
         <li><b style="color:#fff">15:15</b> — <span class="ltr">Southbank Undercroft</span>. המקום הכי אייקוני לסקייט בעולם. קונקרט, גרפיטי, פרו-סקייטרים. <b>חינם.</b> פתוח עד <span class="mono">18:00</span>. <a href="https://www.google.com/maps/place/?q=place_id:ChIJDY7H1rcEdkgRgkeF8HPADs4" target="_blank" class="map-link">📍 מפה</a></li>
       </ul>
       <div class="note">כל קמדן הוא הליכה — אין צורך במטרו בין העצירות. רק לצאת מקמדן לפני <b>15:00</b> כדי להספיק את ה-Undercroft לפני הסגירה.</div>
+      <div id="camden-map" style="width:100%;aspect-ratio:1/1;border-radius:12px;overflow:hidden;margin-top:16px;border:1px solid var(--line);"></div>
     </div>
   </div>
 </section>
@@ -901,7 +903,41 @@ footer {
   <div class="foot-note">LONDON 2026 · נבנה בשביל זמי והבנים · עדכן אותי וזה משתנה.</div>
 </footer>
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
+// Camden + Southbank interactive map
+(function () {
+  const stops = [
+    { ll: [51.5392, -0.1427], n: 'Camden Town Station' },
+    { ll: [51.5406, -0.1421], n: 'Electric Ballroom' },
+    { ll: [51.5440, -0.1469], n: 'Camden Lock Market' },
+    { ll: [51.5453, -0.1487], n: 'Amy Winehouse Statue' },
+    { ll: [51.5451, -0.1483], n: 'Cyberdog' },
+    { ll: [51.5463, -0.1497], n: 'Camden Stables Market' },
+    { ll: [51.5461, -0.1490], n: 'UMusic Shop' },
+    { ll: [51.5438, -0.1466], n: 'Camden Lock Food Stalls' },
+    { ll: [51.5476, -0.1511], n: 'Chalk Farm Station' },
+    { ll: [51.5065, -0.1118], n: 'Southbank Undercroft', purple: true },
+  ];
+  const map = L.map('camden-map', { zoomControl: true });
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    attribution: '©OpenStreetMap ©CartoDB', subdomains: 'abcd', maxZoom: 19,
+  }).addTo(map);
+  const camden = stops.slice(0, 9).map(s => s.ll);
+  L.polyline(camden, { color: '#c8ff35', weight: 3, opacity: 0.75 }).addTo(map);
+  L.polyline([stops[8].ll, stops[9].ll], { color: '#8b5cf6', weight: 2, opacity: 0.6, dashArray: '5,9' }).addTo(map);
+  stops.forEach((s, i) => {
+    const bg = s.purple ? '#8b5cf6' : '#c8ff35';
+    L.marker(s.ll, {
+      icon: L.divIcon({
+        html: `<div style="background:${bg};color:#0a0a0e;font-family:monospace;font-size:10px;font-weight:900;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 2px rgba(255,255,255,.15)">${i + 1}</div>`,
+        className: '', iconSize: [22, 22], iconAnchor: [11, 11],
+      }),
+    }).addTo(map).bindTooltip(s.n, { direction: 'top', offset: [0, -6] });
+  });
+  map.fitBounds([...camden, stops[9].ll], { padding: [24, 24] });
+})();
+
 const chips = [...document.querySelectorAll('.chip')];
 const days = [...document.querySelectorAll('.day')];
 
